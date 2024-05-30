@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginUserController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
+        // Store the previous URL in the session
+        $request->session()->put('url.intended', url()->previous());
         return view('auth.login');
     }
 
@@ -20,7 +22,9 @@ class LoginUserController extends Controller
         ]);
 
         if (Auth::guard('web') -> attempt(['email'=>$request->email, 'password'=>$request->password])) {
-            return redirect()->intended(route('posts.index'));
+            //return redirect()->intended(route('posts.index'));
+            $request->session()->regenerate();
+            return redirect()->intended($request->session()->get('url.intended', route('posts.index')));
         } else {
             return back() -> withErrors([
                 'email' => 'The provided credentials do not match our records.'
