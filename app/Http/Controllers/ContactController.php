@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Aboutme;
+use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
-class AboutmeController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $aboutmes = Aboutme::paginate(6);
-        return view('aboutmes.index', ['aboutmes' => $aboutmes]);
+        $contacts = Contact::paginate(6);
+        return view('contacts.index', ['contacts' => $contacts]);
     }
 
     /**
@@ -27,7 +27,7 @@ class AboutmeController extends Controller
         {
             return to_route('login');
         }
-        return view('aboutmes.create');
+        return view('contacts.create');
     }
 
     /**
@@ -42,34 +42,34 @@ class AboutmeController extends Controller
         ]);
 
         $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
-        auth()->user()->aboutmes()->create($validated);
+        auth()->user()->contacts()->create($validated);
         //Aboutme::create($validated);
         //dispatch(new SendNewPostMailJob(['email' => auth()->user()->email, 'name' => auth()->user()->name, 'title' => $validated['title']]));
-        return redirect()->route('aboutmes.index');
+        return redirect()->route('contacts.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Aboutme $aboutme)
+    public function show(Contact $contact)
     {
-        return view('aboutmes.show', ['aboutme' => $aboutme]);
+        return view('contacts.show', ['contact' => $contact]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Aboutme $aboutme)
+    public function edit(Contact $contact)
     {
-        return view('aboutmes.edit', ['aboutme' => $aboutme]);
+        return view('contacts.edit', ['contact' => $contact]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Aboutme $aboutme)
+    public function update(Request $request, Contact $contact)
     {
-        Gate::authorize('update', $aboutme);
+        Gate::authorize('update', $contact);
         $validated = $request->validate([
             'title' => ['required', 'min:5', 'max:255'],
             'content' => ['required', 'min:10'],
@@ -77,21 +77,21 @@ class AboutmeController extends Controller
         ]);
         
         if ($request->hasFile('thumbnail')) {
-            File::delete(storage_path('app/public/'. $aboutme->thumbnail));
+            File::delete(storage_path('app/public/'. $contact->thumbnail));
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
         }
-        $aboutme -> update($validated);
-        return to_route('aboutmes.show', ['aboutme' => $aboutme]);
+        $contact -> update($validated);
+        return to_route('contacts.show', ['contact' => $contact]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Aboutme $aboutme)
+    public function destroy(Contact $contact)
     {
-        Gate::authorize('delete', $aboutme);
-        File::delete(storage_path('app/public/'. $aboutme->thumbnail));
-        $aboutme -> delete();
-        return to_route('aboutmes.index');
+        Gate::authorize('delete', $contact);
+        File::delete(storage_path('app/public/'. $contact->thumbnail));
+        $contact -> delete();
+        return to_route('contacts.index');
     }
 }

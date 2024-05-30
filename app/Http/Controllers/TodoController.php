@@ -15,6 +15,9 @@ class TodoController extends Controller
     {
         // Ensure the user is authenticated
         $user = auth()->user();
+        if ($user === null) {
+            abort(403);
+        }
         $admin = $user->is_admin;
 
         if ($admin) {
@@ -61,6 +64,7 @@ class TodoController extends Controller
     public function show(Todo $todo)
     {
         //$post = Post::findOrFail($id);
+        Gate::authorize('update', $todo);
         return view('todos.show', ['todo' => $todo]);
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutmeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminPostController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LoginUserController;
 use Illuminate\Http\Request;
 use Illuminate\Routing\PendingResourceRegistration;
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function() {
     Route::put('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
     Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
     Route::patch('/todos/{todo}/toggle', [TodoController::class, 'toggle'])->can('update', 'todo')->name('todos.toggle');
+    Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
 
     // aboutmes
     Route::get('/aboutmes/create', [AboutmeController::class, 'create'])->name('aboutmes.create');
@@ -36,6 +38,14 @@ Route::middleware('auth')->group(function() {
     Route::get('/aboutmes/{aboutme}/edit', [AboutmeController::class, 'edit'])->can('update', 'aboutme')->name('aboutmes.edit');
     Route::put('/aboutmes/{aboutme}', [AboutmeController::class, 'update'])->name('aboutmes.update');
     Route::delete('/aboutmes/{aboutme}', [AboutmeController::class, 'destroy'])->name('aboutmes.destroy');
+    Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
+
+    // contacts
+    Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
+    Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+    Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->can('update', 'contact')->name('contacts.edit');
+    Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');
+    Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
     Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
 
     // admin
@@ -56,6 +66,9 @@ Route::get('/todos/{todo}', [TodoController::class, 'show'])->name('todos.show')
 
 Route::get('/aboutmes', [AboutmeController::class, 'index'])->name('aboutmes.index');
 Route::get('/aboutmes/{aboutme}', [AboutmeController::class, 'show'])->name('aboutmes.show');
+
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show');
 
 Route::middleware('guest')->group(function() {
     Route::get('/register', [RegisterUserController::class, 'register'])->name('register');
