@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])->can('update', 'todo')->name('todos.edit');
     Route::put('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
     Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
-    Route::patch('/todos/{todo}/toggle', [TodoController::class, 'toggleStatus'])->name('todos.toggleStatus');
+    Route::patch('/todos/{todo}/toggle', [TodoController::class, 'toggle'])->can('update', 'todo')->name('todos.toggle');
 
     Route::middleware('is-admin')->group(function() {
         Route::get('/admin', [AdminController::class, 'index'])->middleware('is-admin')->name('admin');

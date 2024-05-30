@@ -78,6 +78,7 @@ class PostController extends Controller
             'content' => ['required', 'min:10'],
             'thumbnail' => ['sometimes', 'image']
         ]);
+        
         if ($request->hasFile('thumbnail')) {
             File::delete(storage_path('app/public/'. $post->thumbnail));
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');

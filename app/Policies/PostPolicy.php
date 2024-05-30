@@ -14,7 +14,7 @@ class PostPolicy
         if ($user -> is_admin) {
             return true;
         }
-        return false;
+        return null;
     }
 
     /**

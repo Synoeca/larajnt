@@ -44,9 +44,15 @@
                     {{$todo->description}}
                 </td>
                 <td class="px-6 py-4">
-                    <button class="toggle-status-button text-white {{ $todo->is_completed ? 'bg-green-700 hover:bg-green-800' : 'bg-red-700 hover:bg-red-800' }} focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" data-id="{{ $todo->id }}">
-                        {{ $todo->is_completed ? 'Completed' : 'Incompleted' }}
-                    </button>
+                    @can('update', $todo)
+                    <form action="{{ route('todos.toggle', $todo->id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="text-white {{ $todo->is_completed ? 'bg-green-700 hover:bg-green-800' : 'bg-red-700 hover:bg-red-800' }} focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                            {{ $todo->is_completed ? 'Completed' : 'Incompleted' }}
+                        </button>
+                    </form>
+                    @endcan
                     
                 </td>
                 <td class="px-6 py-4 flex space-x-2">
@@ -73,7 +79,7 @@
         </tbody>
     </table>
 </div>
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.toggle-status-button').forEach(button => {
             button.addEventListener('click', function () {
@@ -103,6 +109,6 @@
             });
         });
     });
-</script>
+</script> --}}
 
 </x-layout>

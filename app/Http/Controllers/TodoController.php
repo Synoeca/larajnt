@@ -13,7 +13,11 @@ class TodoController extends Controller
 {
     public function index(Post $post)
     {
-        $todos = Todo::paginate(6);
+        // Ensure the user is authenticated
+        $user = auth()->user();
+
+        // Retrieve todos that belong to the authenticated user
+        $todos = $user->todos()->paginate(6);
         return view('todos.index', ['todos' => $todos]);
     }
 
@@ -82,12 +86,12 @@ class TodoController extends Controller
         return to_route('todos.index');
     }
 
-    public function toggleStatus(Todo $todo)
+    public function toggle(Todo $todo)
     {
+        Gate::authorize('update', $todo);
         $todo->is_completed = !$todo->is_completed;
         $todo->save();
-
-        return response()->json(['success' => true, 'new_status' => $todo->is_completed ? 'Completed' : 'Incompleted']);
+        return redirect()->route('todos.index')->with('success', 'Todo status updated successfully!');
     }
 
 }
