@@ -20,6 +20,8 @@
             @if (Auth::check() && Auth::user()->is_admin)
             <x-navbar-link href="/admin" :active="request()->is('admin')">Admin</x-navbar-link>
             @endif
+            <x-navbar-link href="/aboutmes" :active="request()->is('aboutme')">About Me</x-navbar-link>
+            <x-navbar-link href="/contacts" :active="request()->is('contact')">Contact</x-navbar-link>
             @guest
               <x-navbar-link href="{{route('login')}}" :active="request()->is('login')">Login</x-navbar-link>
               <x-navbar-link href="{{route('register')}}" :active="request()->is('register')">Register</x-navbar-link>
