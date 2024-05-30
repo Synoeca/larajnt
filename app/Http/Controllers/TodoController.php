@@ -15,9 +15,18 @@ class TodoController extends Controller
     {
         // Ensure the user is authenticated
         $user = auth()->user();
+        $admin = $user->is_admin;
+
+        if ($admin) {
+            // Retrieve all todos (for admin)
+            $todos = Todo::paginate(10); // Use Todo model directly
+        } else {
+            // Retrieve todos for authenticated user (non-admin)
+            $todos = $user->todos()->paginate(6);
+        }
 
         // Retrieve todos that belong to the authenticated user
-        $todos = $user->todos()->paginate(6);
+        //$todos = $user->todos()->paginate(6);
         return view('todos.index', ['todos' => $todos]);
     }
 
@@ -75,7 +84,7 @@ class TodoController extends Controller
         }
         $todo -> update($validated);
         //return to_route('todos.index', ['todo' => $todo]);
-        return redirect()->route('todos.index')->with('success', 'Todo updated successfully!');
+        return redirect()->route('todos.show');
     }
 
     public function destroy(Todo $todo)

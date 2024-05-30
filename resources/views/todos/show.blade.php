@@ -21,4 +21,14 @@
             <p class="text-lg text-center text-gray-700 dark:text-gray-400">{{$todo -> description}}</p>
         </main>
     </div>
+    @can('update', $todo)
+          <div class="flex justify-center mt-4">  <form action="{{ route('todos.toggle', $todo->id) }}" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <button type="submit" class="text-white {{ $todo->is_completed ? 'bg-green-700 hover:bg-green-800' : 'bg-red-700 hover:bg-red-800' }} focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 shadow-md">
+                      {{ $todo->is_completed ? 'Completed' : 'Incompleted' }}
+                  </button>
+              </form>
+          </div>
+      @endcan
 </x-layout>
