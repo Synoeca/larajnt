@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function() {
     Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
     
     // todos
+    Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
+    Route::get('/todos/{todo}', [TodoController::class, 'show'])->name('todos.show');
     Route::get('todos/create', [TodoController::class, 'create'])->name('todos.create');
     Route::post('/todos', [TodoController::class, 'store'])->name('todos.store');
     Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])->can('update', 'todo')->name('todos.edit');
@@ -60,9 +62,6 @@ Route::middleware('auth')->group(function() {
 // guests
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
-
-Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
-Route::get('/todos/{todo}', [TodoController::class, 'show'])->name('todos.show');
 
 Route::get('/aboutmes', [AboutmeController::class, 'index'])->name('aboutmes.index');
 Route::get('/aboutmes/{aboutme}', [AboutmeController::class, 'show'])->name('aboutmes.show');
