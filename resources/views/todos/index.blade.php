@@ -8,6 +8,7 @@
         </section>
     @endauth
     
+    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 
 <div class="relative overflow-x-auto">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -66,6 +67,7 @@
                     </form>
                     @endcan
                 </td>
+  
             </tr>
            @empty
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -78,4 +80,5 @@
         </tbody>
     </table>
 </div>
+
 </x-layout>

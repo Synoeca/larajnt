@@ -92,6 +92,6 @@ class ContactController extends Controller
         Gate::authorize('delete', $contact);
         File::delete(storage_path('app/public/'. $contact->thumbnail));
         $contact -> delete();
-        return to_route('contacts.index');
+        return to_route('aboutmes.index');
     }
 }

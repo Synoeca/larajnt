@@ -1,5 +1,5 @@
 <x-layout>
-    <x-header>Contacts Index Page</x-header>
+    <x-header>Contact Us</x-header>
     @auth
         <section>
             <div class="flex justify-end">
