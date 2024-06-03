@@ -35,6 +35,7 @@ class TodoController extends Controller
 
     public function create()
     {
+        //dd("here");
         if (!auth()->check())
         {
             return to_route('login');
@@ -87,8 +88,8 @@ class TodoController extends Controller
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
         }
         $todo -> update($validated);
-        //return to_route('todos.index', ['todo' => $todo]);
-        return redirect()->route('todos.show');
+        return to_route('todos.index', ['todo' => $todo]);
+        //return redirect()->route('todos.show');
     }
 
     public function destroy(Todo $todo)

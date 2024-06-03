@@ -25,8 +25,8 @@ Route::middleware('auth')->group(function() {
     
     // todos
     Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
+    Route::get('/todos/create', [TodoController::class, 'create'])->name('todos.create');
     Route::get('/todos/{todo}', [TodoController::class, 'show'])->name('todos.show');
-    Route::get('todos/create', [TodoController::class, 'create'])->name('todos.create');
     Route::post('/todos', [TodoController::class, 'store'])->name('todos.store');
     Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])->can('update', 'todo')->name('todos.edit');
     Route::put('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
@@ -35,12 +35,12 @@ Route::middleware('auth')->group(function() {
     Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
 
     // aboutmes
-    Route::get('/aboutmes/create', [AboutmeController::class, 'create'])->name('aboutmes.create');
-    Route::post('/aboutmes', [AboutmeController::class, 'store'])->name('aboutmes.store');
+    Route::get('/aboutmes/create', [AboutmeController::class, 'create'])->middleware('check.aboutme')->name('aboutmes.create');
+    Route::post('/aboutmes', [AboutmeController::class, 'store'])->middleware('check.aboutme')->name('aboutmes.store');
     Route::get('/aboutmes/{aboutme}/edit', [AboutmeController::class, 'edit'])->can('update', 'aboutme')->name('aboutmes.edit');
     Route::put('/aboutmes/{aboutme}', [AboutmeController::class, 'update'])->name('aboutmes.update');
     Route::delete('/aboutmes/{aboutme}', [AboutmeController::class, 'destroy'])->name('aboutmes.destroy');
-    Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
+    Route::post('/logout', [LoginUserController::class, 'logout'])->name('logout');
 
     // contacts
     Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
@@ -67,7 +67,10 @@ Route::get('/aboutmes', [AboutmeController::class, 'index'])->name('aboutmes.ind
 Route::get('/aboutmes/{aboutme}', [AboutmeController::class, 'show'])->name('aboutmes.show');
 
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+Route::post('/contacts', [ContactController::class, 'submit'])->name('contacts.submit');
 Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show');
+
+
 
 Route::middleware('guest')->group(function() {
     Route::get('/register', [RegisterUserController::class, 'register'])->name('register');

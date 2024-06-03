@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('aboutmes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->string('name');
             $table->string('title');
             $table->text('content');
             $table->string('thumbnail');

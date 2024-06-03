@@ -8,7 +8,7 @@
         </section>
     @endauth
     
-    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    {{-- <script src="../path/to/flowbite/dist/flowbite.min.js"></script> --}}
 
 <div class="relative overflow-x-auto">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

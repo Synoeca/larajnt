@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Mail\ContactMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ContactRequest;
 
 class ContactController extends Controller
 {
@@ -43,6 +46,7 @@ class ContactController extends Controller
 
         $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
         auth()->user()->contacts()->create($validated);
+        //Mail::to($crequest->email)->send(new ContactMail($crequest->name, $crequest->email, $crequest->title, $crequest->content));
         //Aboutme::create($validated);
         //dispatch(new SendNewPostMailJob(['email' => auth()->user()->email, 'name' => auth()->user()->name, 'title' => $validated['title']]));
         return redirect()->route('contacts.index');
@@ -54,6 +58,12 @@ class ContactController extends Controller
     public function show(Contact $contact)
     {
         return view('contacts.show', ['contact' => $contact]);
+    }
+
+    public function submit(ContactRequest $request)
+    {
+       Mail::to($request->email)->send(new ContactMail($request->name, $request->email, $request->title, $request->content));
+       return to_route('posts.index');
     }
 
     /**
@@ -92,6 +102,6 @@ class ContactController extends Controller
         Gate::authorize('delete', $contact);
         File::delete(storage_path('app/public/'. $contact->thumbnail));
         $contact -> delete();
-        return to_route('aboutmes.index');
+        return to_route('contacts.index');
     }
 }

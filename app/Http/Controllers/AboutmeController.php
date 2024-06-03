@@ -36,8 +36,9 @@ class AboutmeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => ['required', 'min:5', 'max:255'],
-            'content' => ['required', 'min:10'],
+            'name' => ['required', 'min:1', 'max:255'],
+            'title' => ['required', 'min:1', 'max:255'],
+            'content' => ['required', 'min:1'],
             'thumbnail' => ['required', 'image']
         ]);
 
@@ -71,6 +72,7 @@ class AboutmeController extends Controller
     {
         Gate::authorize('update', $aboutme);
         $validated = $request->validate([
+            'name' => ['required', 'min:1', 'max:255'],
             'title' => ['required', 'min:5', 'max:255'],
             'content' => ['required', 'min:10'],
             'thumbnail' => ['sometimes', 'image']

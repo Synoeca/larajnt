@@ -11,6 +11,7 @@ class Aboutme extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'title',
         'content',
         'user_id',
