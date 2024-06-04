@@ -42,7 +42,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'min:5', 'max:255'],
             'content' => ['required', 'min:10'],
-            'thumbnail' => ['required', 'image']
+            'thumbnail' => ['sometimes', 'image']
         ]);
 
         $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
