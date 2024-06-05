@@ -42,9 +42,16 @@ class AuthTest extends TestCase
         $response->assertRedirect('/posts');
     }
 
-    public function test_unauthenticated_user_cannot_access_product()
+    public function test_unauthenticated_user_cannot_access_admin()
     {
         $response = $this->get('/admin');
+        $response->assertStatus(302);
+        $response->assertRedirect('login');
+    }
+
+    public function test_unauthenticated_user_cannot_access_todos()
+    {
+        $response = $this->get('/todos');
         $response->assertStatus(302);
         $response->assertRedirect('login');
     }

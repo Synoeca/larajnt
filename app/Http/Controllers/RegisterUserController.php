@@ -18,7 +18,8 @@ class RegisterUserController extends Controller
     {
         $request -> validate([
             'name' => ['required', 'max:255', 'min:5', 'string'],
-            'email' => 'required|email|unique:users',
+            //'email' => 'required|email|unique:users',
+            'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8', 'confirmed', Password::defaults()]
         ]);
         
