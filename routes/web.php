@@ -71,10 +71,9 @@ Route::post('/contacts', [ContactController::class, 'submit'])->name('contacts.s
 Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show');
 
 
-
 Route::middleware('guest')->group(function() {
     Route::get('/register', [RegisterUserController::class, 'register'])->name('register');
     Route::post('/register', [RegisterUserController::class, 'store'])->name('register.store');
     Route::get('/login', [LoginUserController::class, 'login'])->name('login');
-    Route::post('/login}', [LoginUserController::class, 'store'])->name('login.store');
+    Route::post('/login', [LoginUserController::class, 'store'])->name('login.store');
 });

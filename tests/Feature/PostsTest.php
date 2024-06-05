@@ -1,26 +1,45 @@
 <?php
 
+use Tests\TestCase;
 use App\Models\Post;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use Illuminate\Support\Str;
+use Faker\Generator as Faker;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use function Pest\Laravel\get;
 
-it('/posts returns a successful response', function () {
-    $response = $this->get('/posts');
 
-    $response->assertStatus(200);
-});
+class PostsTest extends TestCase
+{
+    use RefreshDatabase;
+    
+    public function test_posts_page_contains_empty_table()
+    {
+        $response = $this->get('/posts');
+        $response->assertStatus(200);
+        $response->assertSee('No Posts');
+    }
 
-test('homepage contains non empty table', function () { 
-    Post::create([
-        'user_id' => 1,
-        'title'  => 'Testing Post 1',
-        'content' => '12345678910111213',
-        'thumbnail' => ""
-    ]);
- 
-    get('/posts')
-        ->assertStatus(200)
-        ->assertDontSee(__('No Posts'));
-}); 
+    public function test_posts_page_contains_non_empty_table()
+    {
+        $post = Post::factory()->create(['user_id' => User::factory()]);
+        $response = $this->get('/posts');
+        $response->assertStatus(200);
+        $response->assertDontSee('No Posts');
+        $response->assertViewHas('posts', function ($collection) use ($post) {
+            return $collection->contains($post);
+        });
+    }
+
+    public function test_paginated_posts_table_doesnt_contain_7th_record()
+    {
+        $lastPost = Post::factory(7)->create([ 'user_id' => User::factory() ])->last();
+        $response = $this->get('/posts');
+        $response->assertStatus(200);
+        $response->assertDontSee('No Posts');
+        $response->assertViewHas('posts', function ($collection) use ($lastPost) {
+            return !$collection->contains($lastPost);
+        });
+    }
+}

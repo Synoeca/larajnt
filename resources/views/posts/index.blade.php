@@ -8,7 +8,7 @@
         </section>
     @endauth
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach ($posts as $post)
+        @forelse ($posts as $post)
             <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$post -> title}}</h5>
@@ -21,7 +21,9 @@
                     </svg>
                 </a>
             </div>
-        @endforeach
+            @empty
+            <p>No Posts</p>
+        @endforelse
         <div class="mt-6">{{$posts->links()}}</div>
     </div>
 </x-layout>
