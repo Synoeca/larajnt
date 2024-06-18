@@ -21,20 +21,6 @@ class Profile extends Model
         'zip'
     ];
 
-    protected $casts = [
-        'id' => 'int',
-        'user_id' => 'int',
-        // 'first_name' => 'string',
-        // 'last_name' => 'string',
-        // 'phone' => 'int',
-        // 'email' => 'email',
-        // 'address1' => 'text',
-        // 'address2' => 'text',
-        // 'city' => 'string',
-        // 'state' => 'string',
-        // 'zip' => 'int'
-    ];
-
 
     public function user(): BelongsTo
     {

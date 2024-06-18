@@ -45,6 +45,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request) : View
     {
+        //dd(($request->user()->id));
+        //dd(Profile::find($request->user()->id));
         return view('profile', [
             'profile' => Profile::find($request->user()->id),
         ]);
@@ -55,7 +57,12 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => ['sometimes', 'min:5', 'max:255'],
+            'last_name' => ['sometimes', 'min:10'],
+        ]);
+        $profile -> update($validated);
+        return to_route('profile.edit', ['profile' => $profile]);
     }
 
     /**
