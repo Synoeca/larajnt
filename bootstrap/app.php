@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias(['can-view-post' => CanViewPostMiddleware::class]);
-        $middleware->alias(['check.aboutme' => CheckAboutMe::class]);
+        $middleware->alias(['check-aboutme' => CheckAboutMe::class]);
         $middleware->alias(['is-admin' => IsAdminMiddleware::class]);
     })
     ->withSchedule(function(Schedule $schedule) {

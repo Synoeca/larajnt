@@ -1,16 +1,18 @@
 <?php
 
-use App\Http\Controllers\AboutmeController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminPostController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\LoginUserController;
 use Illuminate\Http\Request;
-use Illuminate\Routing\PendingResourceRegistration;
+use App\Http\Middleware\CheckAboutMe;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AboutmeController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminPostController;
+use App\Http\Controllers\LoginUserController;
+use App\Http\Controllers\RegisterUserController;
+use Illuminate\Routing\PendingResourceRegistration;
 
 Route::view('/', 'welcome');
 
@@ -35,8 +37,8 @@ Route::middleware('auth')->group(function() {
     Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
 
     // aboutmes
-    Route::get('/aboutmes/create', [AboutmeController::class, 'create'])->middleware('check.aboutme')->name('aboutmes.create');
-    Route::post('/aboutmes', [AboutmeController::class, 'store'])->middleware('check.aboutme')->name('aboutmes.store');
+    Route::get('/aboutmes/create', [AboutmeController::class, 'create'])->middleware(CheckAboutMe::class)->name('aboutmes.create');
+    Route::post('/aboutmes', [AboutmeController::class, 'store'])->middleware(CheckAboutMe::class)->name('aboutmes.store');
     Route::get('/aboutmes/{aboutme}/edit', [AboutmeController::class, 'edit'])->can('update', 'aboutme')->name('aboutmes.edit');
     Route::put('/aboutmes/{aboutme}', [AboutmeController::class, 'update'])->name('aboutmes.update');
     Route::delete('/aboutmes/{aboutme}', [AboutmeController::class, 'destroy'])->name('aboutmes.destroy');
@@ -49,6 +51,12 @@ Route::middleware('auth')->group(function() {
     Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
     Route::post('/logout', [LoginUserController::class, 'logout']) -> name('logout');
+
+    // profile
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::post('profile.update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+
 
     // admin
     Route::middleware('is-admin')->group(function() {

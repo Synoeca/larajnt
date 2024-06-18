@@ -47,7 +47,7 @@ class PostController extends Controller
 
         $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
         auth()->user()->posts()->create($validated);
-        Mail::to('tony@test.mail')->send(new PostMail(['name' => 'Tony', 'title' => $validated['title']]));
+        //Mail::to('tony@test.mail')->send(new PostMail(['name' => 'Tony', 'title' => $validated['title']]));
         dispatch(new SendNewPostMailJob(['email' => auth()->user()->email, 'name' => auth()->user()->name, 'title' => $validated['title']]));
         return redirect()->route('posts.index');
     }

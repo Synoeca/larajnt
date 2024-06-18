@@ -10,6 +10,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-// Schedule::call(function(){
-//     Mail::to('admin@example.com')->send(new PostCountMail());
-// })->everyMinute();
+Schedule::call(function(){
+    Mail::to('jiwoo@jntcompany.com')->send(new PostCountMail());
+})->everyMinute();
