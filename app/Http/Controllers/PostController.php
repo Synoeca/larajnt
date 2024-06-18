@@ -44,8 +44,11 @@ class PostController extends Controller
             'content' => ['required', 'min:10'],
             'thumbnail' => ['sometimes', 'image']
         ]);
-
-        $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
+        if ($request->file('thumbnail') != null)
+        {
+            $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
+        }
+        //$validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
         auth()->user()->posts()->create($validated);
         //Mail::to('tony@test.mail')->send(new PostMail(['name' => 'Tony', 'title' => $validated['title']]));
         dispatch(new SendNewPostMailJob(['email' => auth()->user()->email, 'name' => auth()->user()->name, 'title' => $validated['title']]));
